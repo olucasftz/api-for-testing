@@ -1,4 +1,4 @@
-package br.com.dicasdeumdev.apitestes.controllers;
+package br.com.dicasdeumdev.apitestes.resources;
 
 import br.com.dicasdeumdev.apitestes.domain.User;
 import br.com.dicasdeumdev.apitestes.services.UserService;

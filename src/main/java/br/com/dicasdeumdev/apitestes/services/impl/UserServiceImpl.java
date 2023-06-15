@@ -4,7 +4,6 @@ import br.com.dicasdeumdev.apitestes.domain.User;
 import br.com.dicasdeumdev.apitestes.repositories.UserRepository;
 import br.com.dicasdeumdev.apitestes.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
