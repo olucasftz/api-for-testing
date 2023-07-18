@@ -1,9 +1,11 @@
 package br.com.dicasdeumdev.apitestes.services.impl;
 
 import br.com.dicasdeumdev.apitestes.domain.User;
+import br.com.dicasdeumdev.apitestes.domain.UserDTO;
 import br.com.dicasdeumdev.apitestes.repositories.UserRepository;
 import br.com.dicasdeumdev.apitestes.services.UserService;
 import br.com.dicasdeumdev.apitestes.services.exceptions.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,10 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    public UserRepository userRepository;
+    private ModelMapper mapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public User findById(Integer id) {
@@ -24,5 +29,10 @@ public class UserServiceImpl implements UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User create(UserDTO obj) {
+        return userRepository.save(mapper.map(obj, User.class));
     }
 }
