@@ -38,15 +38,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(mapper.map(obj, User.class));
     }
 
-    @Override
-    public User update(UserDTO obj) {
-        findByEmail(obj);
-        return userRepository.save(mapper.map(obj, User.class));
-    }
-
     private void findByEmail(UserDTO obj) {
         Optional<User> emailOfUser = userRepository.findByEmail(obj.getEmail());
-        if (emailOfUser.isPresent() && !emailOfUser.get().getId().equals(obj.getId())) {
+        if (emailOfUser.isPresent()) {
             throw new DataIntegratyViolationException("email already registered in the system!");
         }
     }
