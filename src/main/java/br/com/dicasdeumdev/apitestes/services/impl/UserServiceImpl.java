@@ -8,6 +8,7 @@ import br.com.dicasdeumdev.apitestes.services.exceptions.DataIntegratyViolationE
 import br.com.dicasdeumdev.apitestes.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,9 +39,21 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(mapper.map(obj, User.class));
     }
 
+    @Override
+    public User update(UserDTO obj) {
+        findByEmail(obj);
+        return userRepository.save(mapper.map(obj, User.class));
+    }
+
+    @Override
+    public void delete(Integer id) {
+        findById(id);
+        userRepository.deleteById(id);
+    }
+
     private void findByEmail(UserDTO obj) {
         Optional<User> emailOfUser = userRepository.findByEmail(obj.getEmail());
-        if (emailOfUser.isPresent()) {
+        if (emailOfUser.isPresent() && !emailOfUser.get().getId().equals(obj.getId())) {
             throw new DataIntegratyViolationException("email already registered in the system!");
         }
     }
