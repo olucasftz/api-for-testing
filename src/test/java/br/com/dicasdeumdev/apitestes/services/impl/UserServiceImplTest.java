@@ -31,6 +31,7 @@ class UserServiceImplTest {
     public static final String  PASSWORD = "123";
     public static final String OBJECT_NOT_FOUND = "Object not found";
     public static final int INDEX = 0;
+    public static final String EMAIL_ALREADY_REGISTERED_IN_THE_SYSTEM = "email already registered in the system!";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -112,7 +113,7 @@ class UserServiceImplTest {
             service.create(userDTO);
         } catch (Exception ex) {
             assertEquals(DataIntegrityViolationException.class, ex.getClass());
-            assertEquals("email already registered in the system!", ex.getMessage());
+            assertEquals(EMAIL_ALREADY_REGISTERED_IN_THE_SYSTEM, ex.getMessage());
         }
     }
 
@@ -139,7 +140,7 @@ class UserServiceImplTest {
             service.update(userDTO);
         } catch (Exception ex) {
             assertEquals(DataIntegrityViolationException.class, ex.getClass());
-            assertEquals("email already registered in the system!", ex.getMessage());
+            assertEquals(EMAIL_ALREADY_REGISTERED_IN_THE_SYSTEM, ex.getMessage());
         }
     }
 
@@ -149,6 +150,18 @@ class UserServiceImplTest {
         doNothing().when(repository).deleteById(anyInt());
         repository.deleteById(ID);
         verify(repository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void whenDeleteThenReturnObjectNotFoundException() {
+        when(repository.findById(anyInt()))
+                .thenThrow(new ObjectNotFoundException(OBJECT_NOT_FOUND));
+        try {
+            service.delete(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(OBJECT_NOT_FOUND, ex.getMessage());
+        }
     }
 
     private void startUser(){
