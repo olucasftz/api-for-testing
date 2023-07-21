@@ -4,11 +4,10 @@ import br.com.dicasdeumdev.apitestes.domain.User;
 import br.com.dicasdeumdev.apitestes.domain.UserDTO;
 import br.com.dicasdeumdev.apitestes.repositories.UserRepository;
 import br.com.dicasdeumdev.apitestes.services.UserService;
-import br.com.dicasdeumdev.apitestes.services.exceptions.DataIntegratyViolationException;
+import br.com.dicasdeumdev.apitestes.services.exceptions.DataIntegrityViolationException;
 import br.com.dicasdeumdev.apitestes.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     private void findByEmail(UserDTO obj) {
         Optional<User> emailOfUser = userRepository.findByEmail(obj.getEmail());
         if (emailOfUser.isPresent() && !emailOfUser.get().getId().equals(obj.getId())) {
-            throw new DataIntegratyViolationException("email already registered in the system!");
+            throw new DataIntegrityViolationException("email already registered in the system!");
         }
     }
 }
