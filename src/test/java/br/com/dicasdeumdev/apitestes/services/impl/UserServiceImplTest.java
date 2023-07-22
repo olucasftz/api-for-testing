@@ -38,6 +38,9 @@ class UserServiceImplTest {
     @Mock
     private UserRepository repository;
 
+    @Mock
+    private ModelMapper mapper;
+
     private User user;
     private UserDTO userDTO;
     private Optional<User> optionalUser;
